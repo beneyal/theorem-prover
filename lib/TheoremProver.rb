@@ -1,7 +1,7 @@
 require "TheoremProver/version"
 require_relative 'TheoremProver/fol_parser'
 require_relative 'TheoremProver/fol_transform'
-require_relative '../lib/TheoremProver/cnf_converter/cnf_converter'
+require_relative 'TheoremProver/cnf_converter/cnf_converter'
 
 module TheoremProver
   puts 'Please enter a sentence in First-Order Logic'
