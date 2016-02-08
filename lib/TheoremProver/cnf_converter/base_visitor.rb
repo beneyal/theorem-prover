@@ -1,4 +1,5 @@
-Dir['./TheoremProver/constructs/*.rb'].each { |f| require f }
+Dir[File.join(File.dirname(__FILE__), '../constructs', '*.rb')].each { |f| require f }
+
 class BaseVisitor
   def visit_biconditional(formula)
     Biconditional.new(formula.left.accept(self), formula.right.accept(self))
