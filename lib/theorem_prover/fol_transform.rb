@@ -1,5 +1,6 @@
 require 'parslet'
 require 'awesome_print'
+require_relative 'fol_parser'
 Dir[File.join(File.dirname(__FILE__), 'constructs', '*.rb')].each { |f| require f }
 
 class FOLTransform < Parslet::Transform
@@ -27,12 +28,15 @@ class FOLTransform < Parslet::Transform
   rule(equality: { left: simple(:lhs), right: simple(:rhs) }) do
     Equality.new(lhs, rhs)
   end
-  rule(quantified: { quantifier: { exists: simple(:e) }, variables: sequence(:vars), formula: simple(:formula) }) do
+  rule(quantified: { exists: simple(:e), variables: sequence(:vars), formula: simple(:formula) }) do
     Existential.new(vars, formula)
   end
-  rule(quantified: { quantifier: { forall: simple(:a) }, variables: sequence(:vars), formula: simple(:formula) }) do
+  rule(quantified: { forall: simple(:a), variables: sequence(:vars), formula: simple(:formula) }) do
     Universal.new(vars, formula)
   end
 end
 
-puts FOLTransform.new.apply(tree) if __FILE__ == $PROGRAM_NAME
+if __FILE__ == $PROGRAM_NAME
+  tree = FOLParser.new.parse('(A (x y) (and (E (x z) (-> (not (and (F x) (G y))) (not (H z x)))) (and (= x (f x)) (Heart x))))')
+  ap FOLTransform.new.apply(tree)
+end

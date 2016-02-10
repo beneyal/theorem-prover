@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'TheoremProver/version'
+require 'theorem_prover/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "TheoremProver"
+  spec.name          = "theorem_prover"
   spec.version       = TheoremProver::VERSION
   spec.authors       = ["Ben Eyal"]
   spec.email         = ["bene@post.bgu.ac.il"]
