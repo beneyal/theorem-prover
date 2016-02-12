@@ -1,4 +1,4 @@
-require_relative 'base_visitor'
+require_relative '../base_visitor'
 Dir[File.join(File.dirname(__FILE__), '../constructs', '*.rb')].each do |f|
   require f
 end

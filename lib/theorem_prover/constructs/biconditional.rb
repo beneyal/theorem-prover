@@ -6,6 +6,6 @@ class Biconditional < BinaryOp
   end
 
   def to_s
-    "(#{left} <=> #{right})"
+    "(iff #{left} #{right})"
   end
 end

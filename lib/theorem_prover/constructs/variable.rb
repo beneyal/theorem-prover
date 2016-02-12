@@ -1,6 +1,6 @@
-require_relative 'negation'
+require_relative 'abstract_construct'
 
-class Variable
+class Variable < AbstractConstruct
   attr_reader :name
   def initialize(name)
     @name = name
@@ -12,5 +12,11 @@ class Variable
 
   def to_s
     name
+  end
+
+  protected
+
+  def state
+    [@name]
   end
 end

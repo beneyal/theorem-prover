@@ -6,6 +6,6 @@ class Implication < BinaryOp
   end
 
   def to_s
-    "(#{left} -> #{right})"
+    "(implies #{left} #{right})"
   end
 end

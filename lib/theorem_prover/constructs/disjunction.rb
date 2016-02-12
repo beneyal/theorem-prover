@@ -1,6 +1,4 @@
 require_relative 'binary_op'
-require_relative 'conjunction'
-require_relative 'negation'
 
 class Disjunction < BinaryOp
   def accept(visitor)
@@ -8,6 +6,6 @@ class Disjunction < BinaryOp
   end
 
   def to_s
-    "(#{left} \\/ #{right})"
+    "(or #{left} #{right})"
   end
 end

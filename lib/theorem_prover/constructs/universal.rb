@@ -6,6 +6,6 @@ class Universal < Quantifier
   end
 
   def to_s
-    "for all #{variables.join(',')}. (#{formula})"
+    "(forall (#{variables.join(' ')}) (#{formula}))"
   end
 end

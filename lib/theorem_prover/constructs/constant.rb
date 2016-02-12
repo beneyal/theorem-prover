@@ -1,4 +1,6 @@
-class Constant
+require_relative 'abstract_construct'
+
+class Constant < AbstractConstruct
   attr_reader :name
   def initialize(name)
     @name = name
@@ -10,5 +12,11 @@ class Constant
 
   def to_s
     name
+  end
+
+  protected
+
+  def state
+    [@name]
   end
 end

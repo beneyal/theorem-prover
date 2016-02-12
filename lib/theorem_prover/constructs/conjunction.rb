@@ -6,6 +6,8 @@ class Conjunction < BinaryOp
   end
 
   def to_s
-    "(#{left} /\\ #{right})"
+    "(and #{left} #{right})"
   end
+
+
 end

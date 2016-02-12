@@ -33,8 +33,8 @@ class FOLParser < Parslet::Parser
     (str('<=>') | str('iff')) >> space >> (formula.as(:left) >> space >> formula.as(:right)).as(:iff)
   end
   rule(:binary_op) { land | lor | implies | iff }
-  rule(:universal) { str('for all') | str('forall') | str('A') }
-  rule(:existential) { str('there exists') | str('exists') | str('E') }
+  rule(:universal) { str('for all') | str('forall') }
+  rule(:existential) { str('there exists') | str('exists') }
   rule(:quantifier) { universal.as(:forall) | existential.as(:exists) }
   rule(:quantified) do
     quantifier >> space >> str('(') >> variables.repeat(1).as(:variables) >> str(')') >> space >> formula.as(:formula)

@@ -1,6 +1,6 @@
-require_relative 'negation'
+require_relative 'abstract_construct'
 
-class Predicate
+class Predicate < AbstractConstruct
   attr_reader :name, :terms
   def initialize(name, terms)
     @name = name
@@ -12,6 +12,12 @@ class Predicate
   end
 
   def to_s
-    "#{name}(#{terms.join(', ')})"
+    "(#{name} #{terms.join(' ')})"
+  end
+
+  protected
+
+  def state
+    [@name, @terms]
   end
 end

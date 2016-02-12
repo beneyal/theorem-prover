@@ -1,6 +1,6 @@
-require_relative 'negation'
+require_relative 'abstract_construct'
 
-class Equality
+class Equality < AbstractConstruct
   attr_reader :lhs, :rhs
   def initialize(lhs, rhs)
     @lhs = lhs
@@ -12,6 +12,12 @@ class Equality
   end
 
   def to_s
-    "#{lhs} = #{rhs}"
+    "(= #{lhs} #{rhs})"
+  end
+
+  protected
+
+  def state
+    [@lhs, @rhs]
   end
 end

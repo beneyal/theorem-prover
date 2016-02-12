@@ -1,4 +1,4 @@
-require_relative 'base_visitor'
+require_relative '../base_visitor'
 Dir[File.join(File.dirname(__FILE__), '../constructs', '*.rb')].each do |f|
   require f
 end
@@ -8,6 +8,7 @@ class SkolemizeVisitor < BaseVisitor
     @counter         = 0
     @universal_env   = []
     @existential_env = []
+    @skolem_symbol   = ("\u03b1".."\u03ff").collect
   end
 
   def visit_universal(formula)
@@ -51,7 +52,11 @@ class SkolemizeVisitor < BaseVisitor
     if @universal_env.empty?
       Constant.new("S#{@counter}")
     else
-      Function.new("skolem#{@counter}", @universal_env.dup)
+      Function.new("#{skolem_symbol}", @universal_env.dup)
     end
+  end
+
+  def skolem_symbol
+    @skolem_symbol.next.encode('utf-8')
   end
 end

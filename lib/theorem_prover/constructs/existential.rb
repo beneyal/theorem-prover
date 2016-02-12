@@ -6,6 +6,6 @@ class Existential < Quantifier
   end
 
   def to_s
-    "exists #{variables.join(',')}. (#{formula})"
+    "(exists (#{variables.join(' ')}) (#{formula}))"
   end
 end
