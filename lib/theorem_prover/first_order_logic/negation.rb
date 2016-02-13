@@ -1,6 +1,6 @@
-require_relative 'abstract_construct'
+require_relative 'formula'
 
-class Negation < AbstractConstruct
+class Negation < Formula
   attr_reader :formula
   def initialize(formula)
     @formula = formula
@@ -11,7 +11,7 @@ class Negation < AbstractConstruct
   end
 
   def to_s
-    "(not #{formula})"
+    "\u00ac#{formula}"
   end
 
   protected

@@ -1,7 +1,4 @@
 require 'theorem_prover/version'
-require_relative 'theorem_prover/parser/fol_parser'
-require_relative 'theorem_prover/parser/fol_transform'
-require_relative 'theorem_prover/cnf_converter/cnf_converter'
 require_relative 'theorem_prover/resolution/knowledge_base'
 
 module TheoremProver
@@ -12,6 +9,7 @@ module TheoremProver
     STEP_FOUR  = 'Result'
     PROMPT     = '~> '
     STOP       = 'fuck'
+    SEPERATOR  = '-'
 
     attr_reader :kb
 
@@ -40,22 +38,18 @@ module TheoremProver
         first = get_input_for_resolution
         print 'Second: '
         second = get_input_for_resolution
-        kb.resolve(first, second)
+        kb.resolve(*first, *second)
       end
     end
 
     def proposition_to_prove
       print PROMPT
-      kb.add(convert_to_cnf(gets.chomp))
+      kb.add(gets.chomp)
     end
 
     def print_proposition_to_prove
       print_title(STEP_TWO)
       puts 'Please enter the proposition you would like to prove in LISP-y First-Order Logic.'
-    end
-
-    def convert_to_cnf(sentence)
-      CNFConverter.new(FOLTransform.new.apply(FOLParser.new.parse(sentence))).convert
     end
 
     def print_title(title)
@@ -67,7 +61,7 @@ module TheoremProver
     def build_initial_kb
       print PROMPT
       until (sentence = gets.chomp) == STOP
-        kb.add(convert_to_cnf(sentence))
+        kb.add(sentence)
         print PROMPT
       end
     end
@@ -78,30 +72,8 @@ module TheoremProver
     end
 
     def get_input_for_resolution
-      i, j = gets.chomp.split('_')
+      i, j = gets.chomp.split(SEPERATOR)
       [i, j].map { |n| n.to_i - 1 }
     end
-
-    def test_run
-      puts 'Please enter a sentence in First-Order Logic'
-      # sentence = gets.chomp
-      sentences = ['(forall (x y z) (exists (a b c) (-> (not (and (F x) (G y))) (not (H a c)))))',
-                   '(forall (x y) (and (exists (x z) (-> (not (and (F x) (G y))) (not (H z x)))) (Heart x)))',
-                   '(for all (x y) (not (not (and (F x) (G x)))))',
-                   '(there exists (x) (not (not (F x))))',
-                   '(forall (x) (not (H x)))',
-                   '(and (and (F A) (F B)) (and (F C) (F D)))',
-                   '(or (or (or (F A) (F B)) (F C)) (F D))',
-                   '(and (F A) (not (F A)))',
-                   '(or (not (F A)) (F A))']
-      sentences.each do |sentence|
-        cnf = CNFConverter.new(FOLTransform.new.apply(FOLParser.new.parse(sentence))).convert
-        kb.add(cnf)
-        puts kb
-        kb.clear
-        puts '-' * 80
-      end
-    end
   end
-  REPL.new.test_run
 end

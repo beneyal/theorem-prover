@@ -1,6 +1,6 @@
-require_relative 'abstract_construct'
+require_relative 'formula'
 
-class Predicate < AbstractConstruct
+class Predicate < Formula
   attr_reader :name, :terms
   def initialize(name, terms)
     @name = name
@@ -12,7 +12,7 @@ class Predicate < AbstractConstruct
   end
 
   def to_s
-    "(#{name} #{terms.join(' ')})"
+    "#{name}(#{terms.join(', ')})"
   end
 
   protected

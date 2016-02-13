@@ -5,7 +5,9 @@ class Disjunction < BinaryOp
     visitor.visit_disjunction self
   end
 
-  def to_s
-    "(or #{left} #{right})"
+  protected
+
+  def symbol
+    "\u2228"
   end
 end

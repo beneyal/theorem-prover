@@ -1,4 +1,4 @@
-Dir[File.join(File.dirname(__FILE__), '../constructs', '*.rb')].each { |f| require f }
+Dir[File.join(File.dirname(__FILE__), '../first_order_logic', '*.rb')].each { |f| require f }
 
 class BaseVisitor
   def visit_biconditional(formula)

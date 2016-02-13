@@ -1,6 +1,6 @@
-require_relative 'abstract_construct'
+require_relative 'formula'
 
-class Equality < AbstractConstruct
+class Equality < Formula
   attr_reader :lhs, :rhs
   def initialize(lhs, rhs)
     @lhs = lhs

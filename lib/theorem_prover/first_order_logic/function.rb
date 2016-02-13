@@ -1,6 +1,6 @@
-require_relative 'abstract_construct'
+require_relative 'term'
 
-class Function < AbstractConstruct
+class Function < Term
   attr_reader :name, :terms
   def initialize(name, terms)
     @name = name
@@ -12,7 +12,7 @@ class Function < AbstractConstruct
   end
 
   def to_s
-    "(#{name} #{terms.join(' ')})"
+    "#{name}(#{terms.join(', ')})"
   end
 
   protected

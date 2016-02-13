@@ -1,7 +1,7 @@
 require 'parslet'
 require 'awesome_print'
 require_relative 'fol_parser'
-Dir[File.join(File.dirname(__FILE__), 'constructs', '*.rb')].each { |f| require f }
+Dir[File.join(File.dirname(__FILE__), 'first_order_logic', '*.rb')].each { |f| require f }
 
 class FOLTransform < Parslet::Transform
   rule(variable: simple(:v)) { Variable.new(String(v)) }

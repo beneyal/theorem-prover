@@ -5,7 +5,9 @@ class Implication < BinaryOp
     visitor.visit_implication self
   end
 
-  def to_s
-    "(implies #{left} #{right})"
+  protected
+
+  def symbol
+    "\u2192"
   end
 end

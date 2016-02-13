@@ -5,9 +5,9 @@ class Conjunction < BinaryOp
     visitor.visit_conjunction self
   end
 
-  def to_s
-    "(and #{left} #{right})"
+  protected
+
+  def symbol
+    "\u2227"
   end
-
-
 end

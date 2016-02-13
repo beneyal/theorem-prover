@@ -1,7 +1,8 @@
-require_relative 'abstract_construct'
+require_relative 'term'
 
-class Variable < AbstractConstruct
+class Variable < Term
   attr_reader :name
+
   def initialize(name)
     @name = name
   end

@@ -5,7 +5,9 @@ class Biconditional < BinaryOp
     visitor.visit_biconditional self
   end
 
-  def to_s
-    "(iff #{left} #{right})"
+  protected
+
+  def symbol
+    "\u2194"
   end
 end

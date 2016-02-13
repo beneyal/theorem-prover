@@ -5,7 +5,9 @@ class Universal < Quantifier
     visitor.visit_universal self
   end
 
-  def to_s
-    "(forall (#{variables.join(' ')}) (#{formula}))"
+  protected
+
+  def symbol
+    "\u2200"
   end
 end

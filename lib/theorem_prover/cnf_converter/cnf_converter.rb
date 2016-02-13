@@ -6,14 +6,9 @@ require_relative 'drop_universals_visitor'
 require_relative 'distribute_conjunctions_visitor'
 
 class CNFConverter
-
-  def initialize(root)
-    @root = root
-  end
-
-  def convert
+  def self.convert(sentence)
     [ImplicationEliminationVisitor, NegationVisitor, StandardizeApartVisitor,
-     SkolemizeVisitor, DropUniversalsVisitor, DistributeConjunctionsVisitor].reduce(@root) do |exp, visitor|
+     SkolemizeVisitor, DropUniversalsVisitor, DistributeConjunctionsVisitor].reduce(sentence) do |exp, visitor|
       exp.accept(visitor.new)
     end
   end

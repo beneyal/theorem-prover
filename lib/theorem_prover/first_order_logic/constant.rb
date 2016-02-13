@@ -1,9 +1,8 @@
-require_relative 'abstract_construct'
+require_relative 'function'
 
-class Constant < AbstractConstruct
-  attr_reader :name
+class Constant < Function
   def initialize(name)
-    @name = name
+    super(name, [])
   end
 
   def accept(visitor)

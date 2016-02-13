@@ -1,4 +1,4 @@
-class AbstractConstruct
+module Equatable
   def ==(o)
     o.class == self.class && o.state == state
   end
@@ -7,11 +7,5 @@ class AbstractConstruct
 
   def hash
     state.hash
-  end
-
-  protected
-
-  def state
-    raise NotImplementedError
   end
 end
