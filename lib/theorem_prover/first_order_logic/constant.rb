@@ -1,21 +1,23 @@
 require_relative 'function'
 
-class Constant < Function
-  def initialize(name)
-    super(name, [])
-  end
+module FirstOrderLogic
+  class Constant < Function
+    def initialize(name)
+      super(name, [])
+    end
 
-  def accept(visitor)
-    visitor.visit_constant self
-  end
+    def accept(visitor)
+      visitor.visit_constant self
+    end
 
-  def to_s
-    name
-  end
+    def to_s
+      name
+    end
 
-  protected
+    protected
 
-  def state
-    [@name]
+    def state
+      [@name]
+    end
   end
 end

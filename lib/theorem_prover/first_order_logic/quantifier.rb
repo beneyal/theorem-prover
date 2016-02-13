@@ -1,23 +1,26 @@
 require_relative 'formula'
 
-class Quantifier < Formula
-  attr_reader :variables, :formula
-  def initialize(variables, formula)
-    @variables = variables
-    @formula = formula
-  end
+module FirstOrderLogic
+  class Quantifier < Formula
+    attr_reader :variables, :formula
 
-  def to_s
-    "#{symbol} #{variables.join(', ')}. #{formula}"
-  end
+    def initialize(variables, formula)
+      @variables = variables
+      @formula   = formula
+    end
 
-  protected
+    def to_s
+      "#{symbol} #{variables.join(', ')}. #{formula}"
+    end
 
-  def symbol
-    raise NotImplementedError
-  end
+    protected
 
-  def state
-    [@variables, @formula]
+    def symbol
+      raise NotImplementedError
+    end
+
+    def state
+      [@variables, @formula]
+    end
   end
 end

@@ -7,13 +7,14 @@ class CNFConverter
     def visit_biconditional(formula)
       left  = formula.left.accept self
       right = formula.right.accept self
-      Conjunction.new(Implication.new(left, right).accept(self), Implication.new(right, left).accept(self))
+      FirstOrderLogic::Conjunction.new(FirstOrderLogic::Implication.new(left, right).accept(self),
+                                       FirstOrderLogic::Implication.new(right, left).accept(self))
     end
 
     def visit_implication(formula)
       left  = formula.left.accept self
       right = formula.right.accept self
-      Disjunction.new(Negation.new(left), right)
+      FirstOrderLogic::Disjunction.new(FirstOrderLogic::Negation.new(left), right)
     end
   end
 end

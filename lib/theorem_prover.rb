@@ -1,5 +1,5 @@
 require 'theorem_prover/version'
-require_relative 'theorem_prover/resolution/knowledge_base'
+require_relative 'theorem_prover/resolution/knowledge_base/knowledge_base'
 
 module TheoremProver
   class REPL

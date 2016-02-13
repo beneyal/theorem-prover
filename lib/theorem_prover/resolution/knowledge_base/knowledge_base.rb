@@ -1,19 +1,20 @@
 require 'set'
 require 'forwardable'
-Dir[File.join(File.dirname(__FILE__), '../**', '*.rb')].each do |f|
+Dir[File.join(File.dirname(__FILE__), '../../**', '*.rb')].each do |f|
   require f
 end
 
 class KnowledgeBase
   extend Forwardable
 
-  def_delegators :@kb, :empty?, :size, :clear
+  def_delegators :@kb, :empty?, :size, :clear, :each
 
   def initialize
-    @kb           = []
-    @substitution = Substitution.new
-    @parser       = FOLParser.new
-    @transformer  = FOLTransform.new
+    @kb          = []
+    @resolver    = Resolution::Resolver.new(self)
+    @parser      = FOLParser.new
+    @transformer = FOLTransform.new
+    @converter   = CNFConverter.new
   end
 
   def add(sentence)
@@ -22,25 +23,7 @@ class KnowledgeBase
   end
 
   def resolve(i1, j1, i2, j2)
-    raise IncompatibleTermsError unless negated?(kb[i1][j1], kb[i2][j2])
-    predicate_i, predicate_j = extract_predicates(kb[i1][j1], kb[i2][j2])
-    raise IncompatibleTermsError unless same_predicate?(predicate_i, predicate_j)
-  end
-
-  def extract_predicates(predicate_i, predicate_j)
-    if predicate_i.is_a?(Negation)
-      [predicate_i.formula, predicate_j]
-    else
-      [predicate_i, predicate_j.formula]
-    end
-  end
-
-  def same_predicate?(predicate_i, predicate_j)
-    (predicate_i.name == predicate_j.name) && (predicate_i.terms.length == predicate_j.terms.length)
-  end
-
-  def negated?(predicate_i, predicate_j)
-    predicate_i.is_a?(Negation) ^ predicate_j.is_a?(Negation)
+    kb << resolver.resolve(kb[i1], j1, kb[i2], j2)
   end
 
   def contains_contradiction?
@@ -66,7 +49,7 @@ class KnowledgeBase
 
   private
 
-  attr_reader :parser, :transformer
+  attr_reader :parser, :transformer, :converter, :resolver
   attr_accessor :kb, :substitution
 
   def break_into_clauses(sentence)
@@ -83,6 +66,6 @@ class KnowledgeBase
   end
 
   def convert_to_cnf(sentence)
-    CNFConverter.convert(transformer.apply(parser.parse(sentence)))
+    converter.convert(transformer.apply(parser.parse(sentence)))
   end
 end

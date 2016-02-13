@@ -7,53 +7,55 @@ end
 class CNFConverter
   class SkolemizeVisitor < BaseVisitor
     def initialize
-      @universal_env   = []
-      @existential_env = []
+      @scope           = Hash.new { |hash, key| hash[key] = [] }
+      @env             = {}
       @skolem_function = ("\u03b1".."\u03ff").collect
-      @skolem_constant = ("\u26a0"..."\u26c0").collect
+      @skolem_constant = ("\u26a1".."\u26bf").collect
     end
 
     def visit_universal(formula)
-      extend_universal_env(formula.variables)
-      result         = super(formula)
-      @universal_env -= formula.variables
+      scope[:universal] += formula.variables
+      result            = super(formula)
+      scope[:universal] -= formula.variables
       result
     end
 
     def visit_existential(formula)
-      extend_existential_env(formula.variables)
-      result           = formula.formula.accept(self)
-      @existential_env -= formula.variables
+      scope[:existential] += formula.variables
+      result              = formula.formula.accept(self)
+      scope[:existential] -= formula.variables
       result
     end
 
     def visit_predicate(predicate)
-      Predicate.new(predicate.name, predicate.terms.map { |term| term.accept(self) })
+      FirstOrderLogic::Predicate.new(predicate.name,
+                                     predicate.terms.map { |term| term.accept(self) })
     end
 
     def visit_function(function)
-      Function.new(function.name, function.terms.map { |term| term.accept(self) })
+      FirstOrderLogic::Function.new(function.name,
+                                    function.terms.map { |term| term.accept(self) })
     end
 
     def visit_variable(variable)
-      @existential_env.empty? ? variable : skolemized
+      if scope[:existential].empty?
+        variable
+      elsif env.has_key?(variable)
+        env[variable]
+      else
+        env[variable] = skolemized
+      end
     end
 
     private
 
-    def extend_universal_env(variables)
-      @universal_env += variables
-    end
-
-    def extend_existential_env(variables)
-      @existential_env += variables
-    end
+    attr_accessor :scope, :env
 
     def skolemized
-      if @universal_env.empty?
-        Constant.new(skolem_constant)
+      if scope[:universal].empty?
+        FirstOrderLogic::Constant.new(skolem_constant)
       else
-        Function.new(skolem_function, @universal_env.dup)
+        FirstOrderLogic::Function.new(skolem_function, scope[:universal].dup)
       end
     end
 

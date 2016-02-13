@@ -1,13 +1,15 @@
 require_relative 'quantifier'
 
-class Existential < Quantifier
-  def accept(visitor)
-    visitor.visit_existential self
-  end
+module FirstOrderLogic
+  class Existential < Quantifier
+    def accept(visitor)
+      visitor.visit_existential self
+    end
 
-  protected
+    protected
 
-  def symbol
-    "\u2203"
+    def symbol
+      "\u2203"
+    end
   end
 end

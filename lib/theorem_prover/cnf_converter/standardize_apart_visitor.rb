@@ -13,24 +13,24 @@ class CNFConverter
 
     def visit_universal(formula)
       vars   = extend_env(formula.variables)
-      result = Universal.new(vars, formula.formula.accept(self))
+      result = FirstOrderLogic::Universal.new(vars, formula.formula.accept(self))
       @env.shift
       result
     end
 
     def visit_existential(formula)
       vars   = extend_env(formula.variables)
-      result = Existential.new(vars, formula.formula.accept(self))
+      result = FirstOrderLogic::Existential.new(vars, formula.formula.accept(self))
       @env.shift
       result
     end
 
     def visit_predicate(predicate)
-      Predicate.new(predicate.name, predicate.terms.map { |term| term.accept(self) })
+      FirstOrderLogic::Predicate.new(predicate.name, predicate.terms.map { |term| term.accept(self) })
     end
 
     def visit_function(function)
-      Function.new(function.name, function.terms.map { |term| term.accept(self) })
+      FirstOrderLogic::Function.new(function.name, function.terms.map { |term| term.accept(self) })
     end
 
     def visit_variable(variable)
@@ -42,7 +42,7 @@ class CNFConverter
     def extend_env(variables)
       renamed = {}
       variables.each do |var|
-        renamed[var.name.to_sym] = Variable.new("#{var}#{@counter}")
+        renamed[var.name.to_sym] = FirstOrderLogic::Variable.new("#{var}#{@counter}")
       end
       @env.unshift(renamed)
       @counter += 1
@@ -51,7 +51,7 @@ class CNFConverter
 
     def renamed(variable)
       @env.each do |frame|
-        return frame[variable.name.to_sym] if frame.has_key? variable.name.to_sym
+        return frame[variable.name.to_sym] if frame.has_key?(variable.name.to_sym)
       end
       raise "#{variable.name} is not quantified"
     end

@@ -1,5 +1,7 @@
 require_relative 'equatable'
 
-class Term
-  include Equatable
+module FirstOrderLogic
+  class Term
+    include Equatable
+  end
 end

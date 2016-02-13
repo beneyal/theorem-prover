@@ -14,8 +14,8 @@ class CNFConverter
     def visit_universal(formula)
       if negated?
         @negated = false
-        Existential.new(formula.variables,
-                        Negation.new(formula.formula).accept(self))
+        FirstOrderLogic::Existential.new(formula.variables,
+                        FirstOrderLogic::Negation.new(formula.formula).accept(self))
       else
         super(formula)
       end
@@ -24,8 +24,8 @@ class CNFConverter
     def visit_existential(formula)
       if negated?
         @negated = false
-        Universal.new(formula.variables,
-                      Negation.new(formula.formula).accept(self))
+        FirstOrderLogic::Universal.new(formula.variables,
+                                       FirstOrderLogic::Negation.new(formula.formula).accept(self))
       else
         super(formula)
       end
@@ -34,8 +34,8 @@ class CNFConverter
     def visit_disjunction(formula)
       if negated?
         @negated = false
-        Conjunction.new(Negation.new(formula.left).accept(self),
-                        Negation.new(formula.right).accept(self))
+        FirstOrderLogic::Conjunction.new(FirstOrderLogic::Negation.new(formula.left).accept(self),
+                                         FirstOrderLogic::Negation.new(formula.right).accept(self))
       else
         super(formula)
       end
@@ -44,8 +44,8 @@ class CNFConverter
     def visit_conjunction(formula)
       if negated?
         @negated = false
-        Disjunction.new(Negation.new(formula.left).accept(self),
-                        Negation.new(formula.right).accept(self))
+        FirstOrderLogic::Disjunction.new(FirstOrderLogic::Negation.new(formula.left).accept(self),
+                                         FirstOrderLogic::Negation.new(formula.right).accept(self))
       else
         super(formula)
       end
@@ -72,7 +72,7 @@ class CNFConverter
     def negate_atom(atom)
       if negated?
         @negated = false
-        Negation.new(atom)
+        FirstOrderLogic::Negation.new(atom)
       else
         atom
       end

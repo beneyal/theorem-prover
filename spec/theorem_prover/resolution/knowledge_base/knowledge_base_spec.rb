@@ -1,5 +1,5 @@
 require 'rspec'
-require_relative '../../spec_helper'
+require_relative '../../../spec_helper'
 
 describe KnowledgeBase do
   context 'contradiction in initial KB' do

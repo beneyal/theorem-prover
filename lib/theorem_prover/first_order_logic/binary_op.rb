@@ -1,23 +1,26 @@
 require_relative 'formula'
 
-class BinaryOp < Formula
-  attr_reader :left, :right
-  def initialize(left, right)
-    @left = left
-    @right = right
-  end
+module FirstOrderLogic
+  class BinaryOp < Formula
+    attr_reader :left, :right
 
-  def to_s
-    "#{left} #{symbol} #{right}"
-  end
+    def initialize(left, right)
+      @left  = left
+      @right = right
+    end
 
-  protected
+    def to_s
+      "#{left} #{symbol} #{right}"
+    end
 
-  def symbol
-    raise NotImplementedError
-  end
+    protected
 
-  def state
-    [@left, @right]
+    def symbol
+      raise NotImplementedError
+    end
+
+    def state
+      [@left, @right]
+    end
   end
 end

@@ -4,35 +4,35 @@ require_relative 'fol_parser'
 Dir[File.join(File.dirname(__FILE__), 'first_order_logic', '*.rb')].each { |f| require f }
 
 class FOLTransform < Parslet::Transform
-  rule(variable: simple(:v)) { Variable.new(String(v)) }
-  rule(constant: simple(:c)) { Constant.new(String(c)) }
+  rule(variable: simple(:v)) { FirstOrderLogic::Variable.new(String(v)) }
+  rule(constant: simple(:c)) { FirstOrderLogic::Constant.new(String(c)) }
   rule(function: { name: simple(:name), terms: sequence(:terms) }) do
-    Function.new(String(name), terms)
+    FirstOrderLogic::Function.new(String(name), terms)
   end
   rule(predicate: { name: simple(:name), terms: sequence(:terms) }) do
-    Predicate.new(String(name), terms)
+    FirstOrderLogic::Predicate.new(String(name), terms)
   end
-  rule(negation: simple(:formula)) { Negation.new(formula) }
+  rule(negation: simple(:formula)) { FirstOrderLogic::Negation.new(formula) }
   rule(iff: { left: simple(:left), right: simple(:right) }) do
-    Biconditional.new(left, right)
+    FirstOrderLogic::Biconditional.new(left, right)
   end
   rule(implies: { left: simple(:left), right: simple(:right) }) do
-    Implication.new(left, right)
+    FirstOrderLogic::Implication.new(left, right)
   end
   rule(or: { left: simple(:left), right: simple(:right) }) do
-    Disjunction.new(left, right)
+    FirstOrderLogic::Disjunction.new(left, right)
   end
   rule(and: { left: simple(:left), right: simple(:right) }) do
-    Conjunction.new(left, right)
+    FirstOrderLogic::Conjunction.new(left, right)
   end
   rule(equality: { left: simple(:lhs), right: simple(:rhs) }) do
-    Equality.new(lhs, rhs)
+    FirstOrderLogic::Equality.new(lhs, rhs)
   end
   rule(quantified: { exists: simple(:e), variables: sequence(:vars), formula: simple(:formula) }) do
-    Existential.new(vars, formula)
+    FirstOrderLogic::Existential.new(vars, formula)
   end
   rule(quantified: { forall: simple(:a), variables: sequence(:vars), formula: simple(:formula) }) do
-    Universal.new(vars, formula)
+    FirstOrderLogic::Universal.new(vars, formula)
   end
 end
 

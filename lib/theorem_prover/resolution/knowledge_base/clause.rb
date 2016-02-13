@@ -1,4 +1,4 @@
-require_relative '../knowledge_base'
+require_relative 'knowledge_base'
 Dir[File.join(File.dirname(__FILE__), '../../first_order_logic', '*.rb')]
 require 'forwardable'
 
@@ -14,15 +14,13 @@ class KnowledgeBase
     end
 
     def resolve_with(other_clause, other_predicate)
-      if resolves_with?(other_clause, other_predicate)
-        Clause.new(clause.concat(other_clause.clause).reject do |predicate|
-          predicate == other_predicate || complements?(predicate, other_predicate)
-        end)
-      end
+      Clause.new((clause + other_clause.clause).reject do |predicate|
+        predicate == other_predicate || complements?(predicate, other_predicate)
+      end)
     end
 
     def apply_substitution(sub)
-
+      clause.map! { |term| term.accept(sub) }
     end
 
     def contradicts?(other)
@@ -43,13 +41,14 @@ class KnowledgeBase
     end
 
     def complements?(predicate_i, predicate_j)
-      predicate_i == Negation.new(predicate_j) || predicate_j == Negation.new(predicate_i)
+      predicate_i == FirstOrderLogic::Negation.new(predicate_j) ||
+          predicate_j == FirstOrderLogic::Negation.new(predicate_i)
     end
 
     def true?
       each_with_index do |p_i, i|
         each_with_index do |p_j, j|
-          return true if i != j && p_i == Negation.new(p_j)
+          return true if i != j && p_i == FirstOrderLogic::Negation.new(p_j)
         end
       end
       false

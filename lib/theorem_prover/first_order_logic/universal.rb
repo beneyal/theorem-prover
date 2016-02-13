@@ -1,13 +1,15 @@
 require_relative 'quantifier'
 
-class Universal < Quantifier
-  def accept(visitor)
-    visitor.visit_universal self
-  end
+module FirstOrderLogic
+  class Universal < Quantifier
+    def accept(visitor)
+      visitor.visit_universal self
+    end
 
-  protected
+    protected
 
-  def symbol
-    "\u2200"
+    def symbol
+      "\u2200"
+    end
   end
 end

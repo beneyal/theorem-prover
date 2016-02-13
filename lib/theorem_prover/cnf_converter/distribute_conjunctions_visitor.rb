@@ -9,22 +9,25 @@ class CNFConverter
     def visit_disjunction(formula)
       left  = formula.left.accept(self)
       right = formula.right.accept(self)
-      if formula.left.is_a?(Conjunction) && formula.right.is_a?(Conjunction)
+      if formula.left.is_a?(FirstOrderLogic::Conjunction) && formula.right.is_a?(FirstOrderLogic::Conjunction)
         ll = left.left
         lr = left.right
         rl = right.left
         rr = right.right
-        Conjunction.new(Disjunction.new(ll, rl),
-                        Conjunction.new(Disjunction.new(ll, rr),
-                                        Conjunction.new(Disjunction.new(lr, rl), Disjunction.new(lr, rr))))
-      elsif formula.left.is_a?(Conjunction)
+        FirstOrderLogic::Conjunction.new(FirstOrderLogic::Disjunction.new(ll, rl),
+                                         FirstOrderLogic::Conjunction.new(FirstOrderLogic::Disjunction.new(ll, rr),
+                                                                          FirstOrderLogic::Conjunction.new(Disjunction.new(lr, rl),
+                                                                                                           FirstOrderLogic::Disjunction.new(lr, rr))))
+      elsif formula.left.is_a?(FirstOrderLogic::Conjunction)
         ll = left.left
         lr = left.right
-        Conjunction.new(Disjunction.new(ll, right), Disjunction.new(lr, right))
-      elsif formula.right.is_a?(Conjunction)
+        FirstOrderLogic::Conjunction.new(FirstOrderLogic::Disjunction.new(ll, right),
+                                         FirstOrderLogic::Disjunction.new(lr, right))
+      elsif formula.right.is_a?(FirstOrderLogic::Conjunction)
         rl = right.left
         rr = right.right
-        Conjunction.new(Disjunction.new(left, rl), Disjunction.new(left, rr))
+        FirstOrderLogic::Conjunction.new(FirstOrderLogic::Disjunction.new(left, rl),
+                                         FirstOrderLogic::Disjunction.new(left, rr))
       else
         super(formula)
       end

@@ -1,23 +1,26 @@
 require_relative 'formula'
 
-class Equality < Formula
-  attr_reader :lhs, :rhs
-  def initialize(lhs, rhs)
-    @lhs = lhs
-    @rhs = rhs
-  end
+module FirstOrderLogic
+  class Equality < Formula
+    attr_reader :lhs, :rhs
 
-  def accept(visitor)
-    visitor.visit_equality self
-  end
+    def initialize(lhs, rhs)
+      @lhs = lhs
+      @rhs = rhs
+    end
 
-  def to_s
-    "(= #{lhs} #{rhs})"
-  end
+    def accept(visitor)
+      visitor.visit_equality self
+    end
 
-  protected
+    def to_s
+      "(= #{lhs} #{rhs})"
+    end
 
-  def state
-    [@lhs, @rhs]
+    protected
+
+    def state
+      [@lhs, @rhs]
+    end
   end
 end
